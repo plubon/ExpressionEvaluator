@@ -1,0 +1,1 @@
+﻿enum LastToken { None, Value, Operator }
