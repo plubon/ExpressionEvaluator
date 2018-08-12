@@ -1,12 +1,18 @@
 ﻿Parsing
 
-Parsing of input expression is done using StringExpression, which implements simplified version of shunting yard algorigthm.
-During parsing object representing each token in the input is created using a factory.
-Those objects manipulates ParsingContext, thus creating the resulting parsed expression.
-Therefore functionality of parsing new tokens can be added by creating new implementations of AbstractToken and ITokenFactory, which is passed to the constructor.
+Parsing of input expression is done using StringExpression class, which implements simplified version of shunting yard algorithm.
+There is a class defined for each type of possible token in the input, those classes inherit from AbstractToken class.
+Token objects of appropriate type are created using a class implementing ITokenFactory, based on characters in the input.
+Token classes encapsulate the behaviour of the parser, when encoutering a character such class represents.
+Therefore functionality of parsing new tokens can be added by creating new implementations of AbstractToken and ITokenFactory.
+A different implementation of ITokenFactory can be injected using the constructor of StringExpression.
 Parsed expression is returned in form of symbols in reverse polish notation.
 
 Evaluation
+
 Evaluation is done using ParsedExpression class, using algorithm for evaluation of expression in RPN and interpreter pattern.
-There is a class for each symbol in the language that either computes corresponding operation or returns a value of a number and changes the EvaluationContext.
+There is a class for each symbol in the language, each of them either computes corresponding operation for given arguments or returns a value of a number.
+NonTerminalSymbol class abstracts commmon properties of all operators.
+Symbols are created during parsing, by corresponding tokens.
+Symbols also manipulate the EvaluationContext class, entire expression can be evaluated just by evalauting all the symbols in it.
 Therefore new symbols can be added by implementing AbstractSymbol class.
