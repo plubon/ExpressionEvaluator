@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ExpressionEvaluator.Tokens
 {
-    abstract class OperatorToken : AbstractToken
+    public abstract class OperatorToken : AbstractToken
     {
 
         protected abstract int Precedence { get;}

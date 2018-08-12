@@ -1,0 +1,12 @@
+﻿Parsing
+
+Parsing of input expression is done using StringExpression, which implements simplified version of shunting yard algorigthm.
+During parsing object representing each token in the input is created using a factory.
+Those objects manipulates ParsingContext, thus creating the resulting parsed expression.
+Therefore functionality of parsing new tokens can be added by creating new implementations of AbstractToken and ITokenFactory, which is passed to the constructor.
+Parsed expression is returned in form of symbols in reverse polish notation.
+
+Evaluation
+Evaluation is done using ParsedExpression class, using algorithm for evaluation of expression in RPN and interpreter pattern.
+There is a class for each symbol in the language that either computes corresponding operation or returns a value of a number and changes the EvaluationContext.
+Therefore new symbols can be added by implementing AbstractSymbol class.

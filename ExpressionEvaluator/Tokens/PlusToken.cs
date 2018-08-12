@@ -4,7 +4,7 @@ namespace ExpressionEvaluator.Tokens
 {
     internal class PlusToken : OperatorToken
     {
-        protected override int Precedence => throw new System.NotImplementedException();
+        protected override int Precedence => 1;
 
         protected override NonTerminalSymbol GetSymbol()
         {

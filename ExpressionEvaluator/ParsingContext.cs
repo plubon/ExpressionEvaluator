@@ -22,6 +22,8 @@ namespace ExpressionEvaluator
             LastRead = LastToken.None;
         }
 
+        internal char GetFirstChar() => Input[0];
+
         internal int ReadNumber()
         {
             int i = 0;

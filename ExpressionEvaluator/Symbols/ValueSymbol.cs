@@ -1,6 +1,6 @@
 ﻿namespace ExpressionEvaluator.Symbols
 {
-    internal class ValueSymbol : AbstractSymbol
+    public class ValueSymbol : AbstractSymbol
     {
         private double Value { get; set; }
 

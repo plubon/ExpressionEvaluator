@@ -1,6 +1,6 @@
 ﻿namespace ExpressionEvaluator.Symbols
 {
-    internal abstract class NonTerminalSymbol : AbstractSymbol
+    public abstract class NonTerminalSymbol : AbstractSymbol
     {
         public abstract int Precedence { get; }
 

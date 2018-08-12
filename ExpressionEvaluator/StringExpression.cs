@@ -11,38 +11,35 @@ namespace ExpressionEvaluator
 
         private ParsingContext Context {get; set;}
 
-        public StringExpression(string input)
+        private IOperatorTokenFactory TokenFactory { get; set; }
+
+        
+
+        private bool IsOperatorNext() => TokenFactory.OperatorsString.Contains(Context.GetFirstChar());
+
+        private bool IsDigitNext() => Char.IsDigit(Context.GetFirstChar());
+
+        public StringExpression(string input, IOperatorTokenFactory resolver)
         {
             Context = new ParsingContext(input);
+            TokenFactory = resolver;
         }
 
         private AbstractToken ReadToken()
         {
-            if(Char.IsDigit(Context.Input[0]))
+            if(IsDigitNext())
             {
                 if (Context.LastRead == LastToken.Value)
                     throw new ArgumentException("Input is not a valid expression");
                 int val = Context.ReadNumber();
-                return new ValueToken(val);
+                return TokenFactory.ProduceValue(val);
             }
-            if("+-*/".Contains(Context.Input[0]))
+            if(IsOperatorNext())
             {
                 if(Context.LastRead == LastToken.Operator)
                     throw new ArgumentException("Input is not a valid expression");
                 char operatorChar = Context.ReadOperator();
-                switch(operatorChar)
-                {
-                    case '+':
-                        return new PlusToken();
-                    case '-':
-                        return new MinusToken();
-                    case '*':
-                        return new MultiplyToken();
-                    case '/':
-                        return new DivideToken();
-                    default:
-                        throw new ArgumentException("Invalid character in expression string");
-                }
+                return TokenFactory.ProduceOperator(operatorChar);
             }
             else
             {
@@ -57,6 +54,8 @@ namespace ExpressionEvaluator
                 var token = ReadToken();
                 token.Parse(Context);
             }
+            if(Context.LastRead != LastToken.Value)
+                throw new ArgumentException("Input is not a valid expression");
             while (Context.Operators.TryPop(out NonTerminalSymbol op))
                 Context.Output.Add(op);
             return Context.Output;
